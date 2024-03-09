@@ -10,6 +10,7 @@ import {
   Put,
   NotFoundException,
   ParseUUIDPipe,
+  ValidationPipe,
 } from '@nestjs/common';
 
 import { UserService } from './user.service';
@@ -22,7 +23,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() dto: CreateUserDto): Promise<UserResponse> {
+  async create(
+    @Body(ValidationPipe) dto: CreateUserDto,
+  ): Promise<UserResponse> {
     return this.userService.create(dto);
   }
 
@@ -41,7 +44,7 @@ export class UserController {
   @Put(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: UpdatePasswordDto,
+    @Body(ValidationPipe) dto: UpdatePasswordDto,
   ): Promise<UserResponse> {
     const user: UserResponse | null = await this.userService.updatePassword(
       id,
