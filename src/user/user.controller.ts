@@ -3,42 +3,42 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpStatus,
   HttpCode,
+  Put,
 } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { User } from './entities/user.entity';
+import { UserResponse } from './types/user-response.type';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() dto: CreateUserDto): Omit<User, 'password'> {
+  create(@Body() dto: CreateUserDto): Promise<UserResponse> {
     return this.userService.create(dto);
   }
 
   @Get()
-  findAll(): Omit<User, 'password'>[] {
+  findAll(): Promise<UserResponse[]> {
     return this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Omit<User, 'password'> {
+  findOne(@Param('id') id: string): Promise<UserResponse> {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() dto: UpdatePasswordDto,
-  ): Omit<User, 'password'> {
+  ): Promise<UserResponse> {
     return this.userService.updatePassword(id, dto);
   }
 

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
 import { IUserDB } from './interfaces/user-db.interface';
+import { UserResponse } from './types/user-response.type';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { User } from './entities/user.entity';
@@ -10,28 +11,31 @@ import { omitUserPassword } from '../utils/user-utils';
 export class UserService {
   constructor(@Inject('IUserDB') private storage: IUserDB) {}
 
-  create(dto: CreateUserDto): Omit<User, 'password'> {
-    return omitUserPassword(this.storage.create(dto));
+  async create(dto: CreateUserDto): Promise<UserResponse | null> {
+    const user: User | null = await this.storage.create(dto);
+    return omitUserPassword(user);
   }
 
-  findAll(): Omit<User, 'password'>[] {
-    return this.storage
-      .findAll()
-      .map((user: User): Omit<User, 'password'> => omitUserPassword(user));
+  async findAll(): Promise<UserResponse[]> {
+    const users: User[] = await this.storage.findAll();
+    return users.map((user: User): UserResponse => omitUserPassword(user));
   }
 
-  findOne(id: string): Omit<User, 'password'> | null {
-    return omitUserPassword(this.storage.findOne(id));
+  async findOne(id: string): Promise<UserResponse | null> {
+    const user: User | null = await this.storage.findOne(id);
+    return omitUserPassword(user);
   }
 
-  updatePassword(
+  async updatePassword(
     id: string,
     dto: UpdatePasswordDto,
-  ): Omit<User, 'password'> | null {
-    return omitUserPassword(this.storage.updatePassword(id, dto));
+  ): Promise<UserResponse | null> {
+    const user: User | null = await this.storage.updatePassword(id, dto);
+    return omitUserPassword(user);
   }
 
-  remove(id: string): Omit<User, 'password'> | null {
-    return omitUserPassword(this.storage.remove(id));
+  async remove(id: string): Promise<UserResponse | null> {
+    const user: User | null = await this.storage.remove(id);
+    return omitUserPassword(user);
   }
 }

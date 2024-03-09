@@ -3,9 +3,12 @@ import { UpdatePasswordDto } from '../dto/update-password.dto';
 import { User } from '../entities/user.entity';
 
 export interface IUserDB {
-  findAll(): User[];
-  findOne(id: string): User | null;
-  create(dto: CreateUserDto): User;
-  updatePassword(id: string, dto: UpdatePasswordDto): User | null;
-  remove(id: string): User | null;
+  findAll(): Promise<User[]> | User[];
+  findOne(id: string): Promise<User | null> | User;
+  create(dto: CreateUserDto): Promise<User | null> | User;
+  updatePassword(
+    id: string,
+    dto: UpdatePasswordDto,
+  ): Promise<User | null> | User;
+  remove(id: string): Promise<User | null> | User;
 }
