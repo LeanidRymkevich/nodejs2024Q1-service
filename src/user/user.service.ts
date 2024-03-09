@@ -4,28 +4,34 @@ import { IUserDB } from './interfaces/user-db.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { User } from './entities/user.entity';
+import { omitUserPassword } from '../utils/user-utils';
 
 @Injectable()
 export class UserService {
   constructor(@Inject('IUserDB') private storage: IUserDB) {}
 
-  create(dto: CreateUserDto): User {
-    return this.storage.create(dto);
+  create(dto: CreateUserDto): Omit<User, 'password'> {
+    return omitUserPassword(this.storage.create(dto));
   }
 
-  findAll(): User[] {
-    return this.storage.findAll();
+  findAll(): Omit<User, 'password'>[] {
+    return this.storage
+      .findAll()
+      .map((user: User): Omit<User, 'password'> => omitUserPassword(user));
   }
 
-  findOne(id: string): User | null {
-    return this.storage.findOne(id);
+  findOne(id: string): Omit<User, 'password'> | null {
+    return omitUserPassword(this.storage.findOne(id));
   }
 
-  updatePassword(id: string, dto: UpdatePasswordDto): User | null {
-    return this.storage.updatePassword(id, dto);
+  updatePassword(
+    id: string,
+    dto: UpdatePasswordDto,
+  ): Omit<User, 'password'> | null {
+    return omitUserPassword(this.storage.updatePassword(id, dto));
   }
 
-  remove(id: string): User | null {
-    return this.storage.remove(id);
+  remove(id: string): Omit<User, 'password'> | null {
+    return omitUserPassword(this.storage.remove(id));
   }
 }
