@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { User } from './entities/user.entity';
 import { omitUserPassword } from '../utils/user-utils';
+import { UserWrongPasswordError } from './user-wrong-password.error';
 
 @Injectable()
 export class UserService {
@@ -30,7 +31,14 @@ export class UserService {
     id: string,
     dto: UpdatePasswordDto,
   ): Promise<UserResponse | null> {
-    const user: User | null = await this.storage.updatePassword(id, dto);
+    let user: User | null = await this.storage.findOne(id);
+
+    if (!user) return null;
+    if (user.password !== dto.oldPassword) {
+      throw new UserWrongPasswordError();
+    }
+
+    user = await this.storage.updatePassword(id, dto);
     return omitUserPassword(user);
   }
 

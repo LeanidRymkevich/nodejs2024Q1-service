@@ -5,7 +5,7 @@ export const omitUserPassword = (
 ): Omit<User, 'password'> | null => {
   if (!user) return null;
 
-  const result: User = user;
+  const result: User = { ...user };
   delete result['password'];
 
   return result;
