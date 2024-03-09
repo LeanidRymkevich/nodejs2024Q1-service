@@ -8,6 +8,7 @@ import {
   HttpStatus,
   HttpCode,
   Put,
+  NotFoundException,
 } from '@nestjs/common';
 
 import { UserService } from './user.service';
@@ -20,31 +21,39 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() dto: CreateUserDto): Promise<UserResponse> {
+  async create(@Body() dto: CreateUserDto): Promise<UserResponse> {
     return this.userService.create(dto);
   }
 
   @Get()
-  findAll(): Promise<UserResponse[]> {
+  async findAll(): Promise<UserResponse[]> {
     return this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<UserResponse> {
-    return this.userService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<UserResponse> {
+    const user: UserResponse | null = await this.userService.findOne(id);
+    if (!user) throw new NotFoundException();
+    return user;
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() dto: UpdatePasswordDto,
   ): Promise<UserResponse> {
-    return this.userService.updatePassword(id, dto);
+    const user: UserResponse | null = await this.userService.updatePassword(
+      id,
+      dto,
+    );
+    if (!user) throw new NotFoundException();
+    return user;
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string): void {
-    this.userService.remove(id);
+  async remove(@Param('id') id: string): Promise<void> {
+    const user: UserResponse | null = await this.userService.remove(id);
+    if (!user) throw new NotFoundException();
   }
 }
