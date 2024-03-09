@@ -45,7 +45,7 @@ export class InMemoryUserDB implements IUserDB {
 
     this.storage[id] = {
       ...user,
-      ...dto,
+      password: dto.newPassword,
     };
     return user;
   }
