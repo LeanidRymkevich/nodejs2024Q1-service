@@ -9,6 +9,7 @@ import {
   HttpCode,
   Put,
   NotFoundException,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 
 import { UserService } from './user.service';
@@ -31,7 +32,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<UserResponse> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<UserResponse> {
     const user: UserResponse | null = await this.userService.findOne(id);
     if (!user) throw new NotFoundException();
     return user;
@@ -39,7 +40,7 @@ export class UserController {
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdatePasswordDto,
   ): Promise<UserResponse> {
     const user: UserResponse | null = await this.userService.updatePassword(
@@ -52,7 +53,7 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id') id: string): Promise<void> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const user: UserResponse | null = await this.userService.remove(id);
     if (!user) throw new NotFoundException();
   }
