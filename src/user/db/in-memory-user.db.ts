@@ -46,8 +46,10 @@ export class InMemoryUserDB implements IUserDB {
     this.storage[id] = {
       ...user,
       password: dto.newPassword,
+      version: user.version + 1,
+      updatedAt: Date.now(),
     };
-    return user;
+    return this.storage[id];
   }
 
   remove(id: string): User | null {
