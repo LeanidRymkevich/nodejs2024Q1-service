@@ -8,7 +8,7 @@ export interface IUserDB {
   create(dto: CreateUserDto): Promise<User | null> | User;
   updatePassword(
     id: string,
-    dto: UpdatePasswordDto,
+    dto: UpdatePasswordDto
   ): Promise<User | null> | User;
   remove(id: string): Promise<User | null> | User;
 }

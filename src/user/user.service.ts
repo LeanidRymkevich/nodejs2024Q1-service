@@ -29,7 +29,7 @@ export class UserService {
 
   async updatePassword(
     id: string,
-    dto: UpdatePasswordDto,
+    dto: UpdatePasswordDto
   ): Promise<UserResponse | null> {
     let user: User | null = await this.storage.findOne(id);
 
