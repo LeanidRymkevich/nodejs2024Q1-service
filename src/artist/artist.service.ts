@@ -1,26 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+
 import { CreateArtistDto } from './dto/create-artist.dto';
-import { UpdateArtistDto } from './dto/update-artist.dto';
+import { Artist } from './entities/artist.entity';
+import { IArtistDB } from './interfaces/artist-db.interface';
 
 @Injectable()
 export class ArtistService {
-  create(createArtistDto: CreateArtistDto) {
-    return 'This action adds a new artist';
+  constructor(@Inject('IArtistDB') private storage: IArtistDB) {}
+
+  async create(dto: CreateArtistDto): Promise<Artist | null> {
+    return this.storage.create(dto);
   }
 
-  findAll() {
-    return `This action returns all artist`;
+  async findAll(): Promise<Artist[]> {
+    return this.storage.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} artist`;
+  async findOne(id: string): Promise<Artist | null> {
+    return this.storage.findOne(id);
   }
 
-  update(id: number, updateArtistDto: UpdateArtistDto) {
-    return `This action updates a #${id} artist`;
+  async update(id: string, dto: CreateArtistDto): Promise<Artist | null> {
+    return this.storage.update(id, dto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} artist`;
+  async remove(id: string): Promise<Artist | null> {
+    return this.storage.remove(id);
   }
 }
