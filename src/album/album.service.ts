@@ -36,7 +36,7 @@ export class AlbumService {
   async remove(id: string): Promise<Album | null> {
     const track: Track | null = await this.tracksService.getByAlbumId(id);
     if (track) {
-      const { name, duration, artistId } = track;
+      const { name, duration, artistId, id } = track;
       this.tracksService.update(id, {
         name,
         artistId,
