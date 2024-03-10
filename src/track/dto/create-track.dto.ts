@@ -11,12 +11,12 @@ export class CreateTrackDto {
   @IsNotEmpty()
   name: string;
 
-  @ValidateIf((value: unknown): boolean => value !== null)
+  @ValidateIf((value: unknown): boolean => value === null)
   @IsString()
   @IsNotEmpty()
   artistId: string | null;
 
-  @ValidateIf((value: unknown): boolean => value !== null)
+  @ValidateIf((value: unknown): boolean => value === null)
   @IsString()
   @IsNotEmpty()
   albumId: string | null;
