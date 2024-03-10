@@ -13,5 +13,6 @@ import { InMemoryArtistDB } from './db/in-memory-artist.db';
       useClass: InMemoryArtistDB,
     },
   ],
+  exports: [ArtistService],
 })
 export class ArtistModule {}
