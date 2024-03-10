@@ -47,4 +47,18 @@ export class InMemoryTrackDB implements ITrackDB {
     if (track) delete this.storage[id];
     return track;
   }
+
+  getByAlbumId(id: string): Track | null {
+    const result: Track | undefined = Object.values(this.storage).find(
+      (track: Track): boolean => track.albumId === id
+    );
+    return result || null;
+  }
+
+  getByArtistId(id: string): Track | null {
+    const result: Track | undefined = Object.values(this.storage).find(
+      (track: Track): boolean => track.artistId === id
+    );
+    return result || null;
+  }
 }

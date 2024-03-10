@@ -33,4 +33,12 @@ export class TrackService {
     await this.favsService.deleteTrack(id);
     return this.storage.remove(id);
   }
+
+  async getByAlbumId(id: string): Promise<Track | null> {
+    return this.storage.getByAlbumId(id);
+  }
+
+  async getByArtistId(id: string): Promise<Track | null> {
+    return this.storage.getByArtistId(id);
+  }
 }

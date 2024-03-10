@@ -1,12 +1,21 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { IAlbumDB } from './interfaces/album-db.interface';
 import { Album } from './entities/album.entity';
+import { Track } from 'src/track/entities/track.entity';
+import { FavoritesService } from 'src/favs/favs.service';
+import { TrackService } from 'src/track/track.service';
 
 @Injectable()
 export class AlbumService {
-  constructor(@Inject('IAlbumDB') private storage: IAlbumDB) {}
+  constructor(
+    @Inject('IAlbumDB') private storage: IAlbumDB,
+    @Inject(forwardRef(() => FavoritesService))
+    private favsService: FavoritesService,
+    @Inject(forwardRef(() => TrackService))
+    private tracksService: TrackService
+  ) {}
 
   async create(dto: CreateAlbumDto): Promise<Album | null> {
     return this.storage.create(dto);
@@ -25,6 +34,17 @@ export class AlbumService {
   }
 
   async remove(id: string): Promise<Album | null> {
+    const track: Track | null = await this.tracksService.getByAlbumId(id);
+    if (track) {
+      const { name, duration, artistId } = track;
+      this.tracksService.update(id, {
+        name,
+        artistId,
+        albumId: null,
+        duration,
+      });
+    }
+    await this.favsService.deleteAlbum(id);
     return this.storage.remove(id);
   }
 }

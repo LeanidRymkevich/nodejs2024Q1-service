@@ -4,6 +4,7 @@ import { AlbumService } from './album.service';
 import { AlbumController } from './album.controller';
 import { InMemoryAlbumDB } from './db/in-memory-track.db';
 import { FavsModule } from '../favs/favs.module';
+import { TrackModule } from 'src/track/track.module';
 
 @Module({
   controllers: [AlbumController],
@@ -15,6 +16,6 @@ import { FavsModule } from '../favs/favs.module';
     },
   ],
   exports: [AlbumService],
-  imports: [forwardRef(() => FavsModule)],
+  imports: [forwardRef(() => FavsModule), forwardRef(() => TrackModule)],
 })
 export class AlbumModule {}
