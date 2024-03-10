@@ -1,34 +1,57 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  ValidationPipe,
+  ParseUUIDPipe,
+  NotFoundException,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
+
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
-import { UpdateAlbumDto } from './dto/update-album.dto';
+import { Album } from './entities/album.entity';
 
 @Controller('album')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Post()
-  create(@Body() createAlbumDto: CreateAlbumDto) {
-    return this.albumService.create(createAlbumDto);
+  async create(@Body(ValidationPipe) dto: CreateAlbumDto): Promise<Album> {
+    return this.albumService.create(dto);
   }
 
   @Get()
-  findAll() {
+  async findAll(): Promise<Album[]> {
     return this.albumService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.albumService.findOne(+id);
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Album> {
+    const album: Album | null = await this.albumService.findOne(id);
+    if (!album) throw new NotFoundException();
+    return album;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto) {
-    return this.albumService.update(+id, updateAlbumDto);
+  @Put(':id')
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body(ValidationPipe) dto: CreateAlbumDto
+  ): Promise<Album> {
+    const album: Album | null = await this.albumService.update(id, dto);
+    if (!album) throw new NotFoundException();
+    return album;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.albumService.remove(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    const album: Album | null = await this.albumService.remove(id);
+    if (!album) throw new NotFoundException();
   }
 }
