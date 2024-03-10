@@ -1,15 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { TrackService } from './track.service';
 import { CreateTrackDto } from './dto/create-track.dto';
-import { UpdateTrackDto } from './dto/update-track.dto';
 
 @Controller('track')
 export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
   @Post()
-  create(@Body() createTrackDto: CreateTrackDto) {
-    return this.trackService.create(createTrackDto);
+  create(@Body() dto: CreateTrackDto) {
+    return this.trackService.create(dto);
   }
 
   @Get()
@@ -19,16 +26,16 @@ export class TrackController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.trackService.findOne(+id);
+    return this.trackService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTrackDto: UpdateTrackDto) {
-    return this.trackService.update(+id, updateTrackDto);
+  @Put(':id')
+  update(@Param('id') id: string, @Body() dto: CreateTrackDto) {
+    return this.trackService.update(id, dto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.trackService.remove(+id);
+    return this.trackService.remove(id);
   }
 }
