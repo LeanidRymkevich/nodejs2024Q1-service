@@ -28,7 +28,7 @@ export class UserController {
 
   @Post()
   async create(
-    @Body(ValidationPipe) dto: CreateUserDto,
+    @Body(ValidationPipe) dto: CreateUserDto
   ): Promise<UserResponse> {
     return this.userService.create(dto);
   }
@@ -48,7 +48,7 @@ export class UserController {
   @Put(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body(ValidationPipe) dto: UpdatePasswordDto,
+    @Body(ValidationPipe) dto: UpdatePasswordDto
   ): Promise<UserResponse> {
     let user: UserResponse | null;
 
