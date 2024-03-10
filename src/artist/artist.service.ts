@@ -38,15 +38,15 @@ export class ArtistService {
   }
 
   async remove(id: string): Promise<Artist | null> {
-    const track: Track | null = await this.tracksService.getByAlbumId(id);
+    const track: Track | null = await this.tracksService.getByArtistId(id);
     const album: Album | null = await this.albumsService.getByArtistId(id);
 
     if (track) {
-      const { name, duration, artistId } = track;
+      const { id, name, duration, albumId } = track;
       this.tracksService.update(id, {
         name,
-        artistId,
-        albumId: null,
+        artistId: null,
+        albumId,
         duration,
       });
     }
