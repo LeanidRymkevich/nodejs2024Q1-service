@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 
 import { AlbumService } from './album.service';
 import { AlbumController } from './album.controller';
 import { InMemoryAlbumDB } from './db/in-memory-track.db';
+import { FavsModule } from '../favs/favs.module';
 
 @Module({
   controllers: [AlbumController],
@@ -14,5 +15,6 @@ import { InMemoryAlbumDB } from './db/in-memory-track.db';
     },
   ],
   exports: [AlbumService],
+  imports: [forwardRef(() => FavsModule)],
 })
 export class AlbumModule {}
