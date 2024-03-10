@@ -61,7 +61,7 @@ export class FavsController {
     return album;
   }
 
-  @Delete('/artist/:id')
+  @Delete('/album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteAlbum(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const album: Album | null = await this.favsService.deleteAlbum(id);
