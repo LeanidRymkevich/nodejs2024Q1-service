@@ -20,7 +20,11 @@ export class InMemoryFavoritesDB implements IFavoritesDB {
   }
 
   deleteTrack(id: string): string | null {
-    return this.deleteFromStore(id, this.tracks);
+    const initialItemsNum: number = this.tracks.length;
+    this.tracks = this.tracks.filter((value: string): boolean => id !== value);
+
+    if (initialItemsNum === this.tracks.length) return null;
+    return id;
   }
 
   addArtist(id: string): string {
@@ -28,7 +32,13 @@ export class InMemoryFavoritesDB implements IFavoritesDB {
   }
 
   deleteArtist(id: string): string {
-    return this.deleteFromStore(id, this.artists);
+    const initialItemsNum: number = this.artists.length;
+    this.artists = this.artists.filter(
+      (value: string): boolean => id !== value
+    );
+
+    if (initialItemsNum === this.artists.length) return null;
+    return id;
   }
 
   addAlbum(id: string): string {
@@ -36,7 +46,11 @@ export class InMemoryFavoritesDB implements IFavoritesDB {
   }
 
   deleteAlbum(id: string): string {
-    return this.deleteFromStore(id, this.albums);
+    const initialItemsNum: number = this.albums.length;
+    this.albums = this.albums.filter((value: string): boolean => id !== value);
+
+    if (initialItemsNum === this.albums.length) return null;
+    return id;
   }
 
   private addToStore(entry: string, store: string[]): string {
@@ -45,10 +59,10 @@ export class InMemoryFavoritesDB implements IFavoritesDB {
   }
 
   private deleteFromStore(entry: string, store: string[]): string | null {
-    const oldStore: string[] = store;
-    store = oldStore.filter((value: string): boolean => entry !== value);
+    const initialItemsNum: number = store.length;
+    store = store.filter((value: string): boolean => entry !== value);
 
-    if (oldStore.length === store.length) return null;
+    if (initialItemsNum === store.length) return null;
     return entry;
   }
 }
