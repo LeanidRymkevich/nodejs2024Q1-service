@@ -13,6 +13,6 @@ import { InMemoryTrackDB } from './db/in-memory-track.db';
       useClass: InMemoryTrackDB,
     },
   ],
-  exports: [TrackModule],
+  exports: [TrackService],
 })
 export class TrackModule {}

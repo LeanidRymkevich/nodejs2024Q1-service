@@ -9,17 +9,15 @@ import { ArtistService } from '../artist/artist.service';
 import { AlbumService } from '../album/album.service';
 import { Favorites } from './entities/fav.entity';
 import { IFavoritesResponse } from './interfaces/favs-response.interface';
-import { TrackModule } from 'src/track/track.module';
-import { ArtistModule } from 'src/artist/artist.module';
-import { AlbumModule } from 'src/album/album.module';
 
 @Injectable()
 export class FavoritesService {
-  @Inject(TrackModule) private trackService: TrackService;
-  @Inject(ArtistModule) private artistService: ArtistService;
-  @Inject(AlbumModule) private albumService: AlbumService;
-
-  constructor(@Inject('IFavoritesDB') private storage: IFavoritesDB) {}
+  constructor(
+    @Inject('IFavoritesDB') private storage: IFavoritesDB,
+    private albumService: AlbumService,
+    private trackService: TrackService,
+    private artistService: ArtistService
+  ) {}
 
   async findAll(): Promise<IFavoritesResponse> {
     const {

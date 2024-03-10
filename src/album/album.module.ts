@@ -13,6 +13,6 @@ import { InMemoryAlbumDB } from './db/in-memory-track.db';
       useClass: InMemoryAlbumDB,
     },
   ],
-  exports: [AlbumModule],
+  exports: [AlbumService],
 })
 export class AlbumModule {}
