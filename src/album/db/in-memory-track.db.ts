@@ -47,4 +47,11 @@ export class InMemoryAlbumDB implements IAlbumDB {
     if (track) delete this.storage[id];
     return track;
   }
+
+  getByArtistId(id: string): Album | null {
+    const result: Album | undefined = Object.values(this.storage).find(
+      (track: Album): boolean => track.artistId === id
+    );
+    return result || null;
+  }
 }

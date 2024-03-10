@@ -14,8 +14,8 @@ import {
 import { FavoritesService } from './favs.service';
 import { IFavoritesResponse } from './interfaces/favs-response.interface';
 import { Track } from '../track/entities/track.entity';
-import { Artist } from 'src/artist/entities/artist.entity';
-import { Album } from 'src/album/entities/album.entity';
+import { Artist } from '../artist/entities/artist.entity';
+import { Album } from '../album/entities/album.entity';
 
 @Controller('favs')
 export class FavsController {

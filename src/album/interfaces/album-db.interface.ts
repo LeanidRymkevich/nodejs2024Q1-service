@@ -7,4 +7,5 @@ export interface IAlbumDB {
   create(dto: CreateAlbumDto): Promise<Album | null> | Album;
   update(id: string, dto: CreateAlbumDto): Promise<Album | null> | Album | null;
   remove(id: string): Promise<Album | null> | Album | null;
+  getByArtistId(id: string): Promise<Album | null> | Album | null;
 }

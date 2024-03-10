@@ -3,9 +3,9 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { IAlbumDB } from './interfaces/album-db.interface';
 import { Album } from './entities/album.entity';
-import { Track } from 'src/track/entities/track.entity';
-import { FavoritesService } from 'src/favs/favs.service';
-import { TrackService } from 'src/track/track.service';
+import { Track } from '../track/entities/track.entity';
+import { FavoritesService } from '../favs/favs.service';
+import { TrackService } from '../track/track.service';
 
 @Injectable()
 export class AlbumService {
@@ -46,5 +46,9 @@ export class AlbumService {
     }
     await this.favsService.deleteAlbum(id);
     return this.storage.remove(id);
+  }
+
+  async getByArtistId(id: string): Promise<Album | null> {
+    return this.storage.getByArtistId(id);
   }
 }

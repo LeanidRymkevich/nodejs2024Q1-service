@@ -3,7 +3,7 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { ITrackDB } from './interfaces/track-db.interface';
 import { Track } from './entities/track.entity';
-import { FavoritesService } from 'src/favs/favs.service';
+import { FavoritesService } from '../favs/favs.service';
 
 @Injectable()
 export class TrackService {
