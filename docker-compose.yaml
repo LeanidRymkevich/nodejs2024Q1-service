@@ -7,6 +7,9 @@ services:
       - ${DB_PORT}:${DB_PORT}
     networks:
       - api_network
+    volumes:
+      - database_data:/var/lib/postgresql/data
+      - database_logs:/var/log/postgresql
   app:
     image: reinevan/home_library_service:1.0
     restart: always
@@ -19,6 +22,9 @@ services:
       - api_network
     volumes:
       - ./src:/app/src
+volumes:
+  database_data:
+  database_logs:
 networks:
   api_network:
     name: api_network
