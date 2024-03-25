@@ -4,6 +4,7 @@
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker - [Download & Install Docker](https://docs.docker.com/get-docker/)
 
 ## Downloading
 
@@ -15,6 +16,22 @@ git clone https://github.com/LeanidRymkevich/nodejs2024Q1-service.git
 
 ```
 npm install --force
+```
+
+## or using Docker
+
+```
+docker-compose up
+```
+
+## To scan images
+
+```
+npm run docker-vulnerabilities:app
+```
+
+```
+npm run docker-vulnerabilities:db
 ```
 
 ## Running application
